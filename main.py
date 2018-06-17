@@ -44,7 +44,7 @@ def ranking(bot, update):
 
 def thigo(bot, update):
     """handles /thigo command"""
-    answer(update, 'Feliz aniversário! <3')
+    answer(update, 'Feliz aniversário, Thigo! <3')
 
 
 def bets(bot, update):
