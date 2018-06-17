@@ -3,6 +3,7 @@
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from users import USERS
+from matches import MATCHES
 import os
 import logging
 import requests
@@ -65,7 +66,9 @@ def bets(bot, update):
     bets_list = json.loads(r.text)
     filtered_bets = [ b for b in bets_list if b['id_user'] in ids and b['id_match'] == str(match) ]
 
-    response = ''.join(b['name'] + ': ' + b['goals_home'] + ' x ' + b['goals_visitor'] + '\n' for b in filtered_bets)
+    home_team = MATCHES[match]['team_home']
+    visitor_team = MATCHES[match]['team_visitor']
+    response = ''.join(b['name'] + ': ' + home_team + ' ' + b['goals_home'] + ' x ' + b['goals_visitor'] + ' ' + visitor_team + '\n\n' for b in filtered_bets)
 
     answer(update, response)
 
