@@ -68,7 +68,7 @@ def bets(bot, update):
 
     home_team = MATCHES[match]['team_home']
     visitor_team = MATCHES[match]['team_visitor']
-    response = home_team + ' x ' + visitor_team + '\n\n'
+    response = '** ' + home_team + ' x ' + visitor_team + ' **\n'
     response += ''.join(b['name'] + ': ' + b['goals_home'] + ' x ' + b['goals_visitor'] + '\n' for b in filtered_bets)
 
     answer(update, response)
