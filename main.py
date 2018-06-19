@@ -42,11 +42,6 @@ def ranking(bot, update):
     answer(update, 'Ranking!')
 
 
-def thigo(bot, update):
-    """handles /thigo command"""
-    answer(update, 'Feliz aniversário, Thigo! <3')
-
-
 def bets(bot, update):
     """handles /bets {bet} command"""
     text = update.message.text
@@ -73,7 +68,8 @@ def bets(bot, update):
 
     home_team = MATCHES[match]['team_home']
     visitor_team = MATCHES[match]['team_visitor']
-    response = ''.join(b['name'] + ': ' + home_team + ' ' + b['goals_home'] + ' x ' + b['goals_visitor'] + ' ' + visitor_team + '\n\n' for b in filtered_bets)
+    response = '<b>' + home_team + ' x ' + visitor_team + '</b>\n'
+    response += ''.join(b['name'] + ': ' + b['goals_home'] + ' x ' + b['goals_visitor'] + '\n' for b in filtered_bets)
 
     answer(update, response)
 
@@ -93,7 +89,6 @@ def main():
 
     # register handlers
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("thigo", thigo))
     dispatcher.add_handler(CommandHandler("ranking", ranking))
     dispatcher.add_handler(CommandHandler("bets", bets))
     dispatcher.add_handler(CommandHandler("help", help))
