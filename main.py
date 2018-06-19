@@ -14,7 +14,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-ids = [ str(key) for key, value in USERS.items() ]
+ids = [ key for key, value in USERS.items() ]
 
 INVALID_INPUT = 'Invalid input'
 
@@ -64,12 +64,12 @@ def bets(bot, update):
     r = requests.get(url='https://www.motta.ml/bolao2018/sql/getInfo.php?table=bets')
 
     bets_list = json.loads(r.text)
-    filtered_bets = [ b for b in bets_list if b['id_user'] in ids and b['id_match'] == str(match) ]
+    filtered_bets = [ b for b in bets_list if b['id_user'] in ids and b['id_match'] == match ]
 
     home_team = MATCHES[match]['team_home']
     visitor_team = MATCHES[match]['team_visitor']
     response = '** ' + home_team + ' x ' + visitor_team + ' **\n'
-    response += ''.join(b['name'] + ': ' + b['goals_home'] + ' x ' + b['goals_visitor'] + '\n' for b in filtered_bets)
+    response += ''.join(b['name'] + ': ' + str(b['goals_home']) + ' x ' + str(b['goals_visitor']) + '\n' for b in filtered_bets)
 
     answer(update, response)
 
