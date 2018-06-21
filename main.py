@@ -27,14 +27,34 @@ def answer(update, response):
     update.message.reply_text(response)
 
 
-def get_bets():
-    r = requests.get(url='https://www.motta.ml/bolao2018/sql/getInfo.php?table=bets')
-    return json.loads(r.text)
+def answer_markdown(bot, chat_id, response):
+    bot.sendMessage(parse_mode='MARKDOWN', chat_id=chat_id, text=response)
 
 
 def get_last_match(bets):
     matches = list(map(lambda b: b['id_match'], bets))
     return reduce((lambda x, y: max(x, y)), matches)
+
+
+def format_ranking_row_short(r):
+    args = (r['position'], r['name'], r['points'])
+    return '{:3d}. {:13s} - {:3d} pts\n'.format(*args)
+
+
+def format_ranking_row(r):
+    args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'])
+    return '{:3d}. {:13s} - {:3d} pts - {:2d} / {:2d} / {:2d}\n'.format(*args)
+
+
+# api request functions
+def get_bets():
+    r = requests.get(url='https://www.motta.ml/bolao2018/sql/getInfo.php?table=bets')
+    return json.loads(r.text)
+
+
+def get_ranking():
+    r = requests.get(url='https://www.motta.ml/bolao2018/sql/getRanking.php')
+    return json.loads(r.text)
 
 
 # command handlers
@@ -50,7 +70,19 @@ def help(bot, update):
 
 def ranking(bot, update):
     """handles /ranking command"""
-    answer(update, 'Ranking!')
+    text = update.message.text
+    split_text = text.split()
+
+    formatter = format_ranking_row
+    if len(split_text) == 2 and split_text[1] == 'short':
+        formatter = format_ranking_row_short
+
+    ranking = get_ranking()
+    response = '```\n'
+    response += '** HPBr no Bolão **\n\n'
+    response += ''.join([ formatter(r) for r in ranking if r['id'] in ids ])
+    response += '```'
+    answer_markdown(bot, update.message.chat.id, response)
 
 
 def bets_with_no_param(bot, update):
