@@ -38,7 +38,7 @@ def get_last_match(bets):
 
 def format_ranking_row_short(r):
     args = (r['position'], r['name'], r['points'])
-    return '{:3d}. {:13s} - {:3d} pts\n'.format(*args)
+    return '{:d}. {:s} ({:d}) pts\n'.format(*args)
 
 
 def format_ranking_row(r):
