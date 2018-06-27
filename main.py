@@ -58,13 +58,19 @@ def format_bets_row(name, goals_home, goals_visitor):
 
 # api request functions
 def get_bets():
-    r = requests.get(url='https://www.motta.ml/bolao2018/sql/getInfo.php?table=bets')
-    return json.loads(r.text)
+    try:
+        r = requests.get(url='https://www.motta.ml/bolao2018/sql/getInfo.php?table=bets')
+        return json.loads(r.text)
+    except:
+        return {}
 
 
 def get_ranking():
-    r = requests.get(url='https://www.motta.ml/bolao2018/sql/getRanking.php')
-    return json.loads(r.text)
+    try:
+        r = requests.get(url='https://www.motta.ml/bolao2018/sql/getRanking.php')
+        return json.loads(r.text)
+    except:
+        return {}
 
 
 # command handlers
@@ -90,6 +96,9 @@ def ranking_response(update, is_top):
             formatter = format_ranking_row_short
 
     ranking = get_ranking()
+
+    if len(ranking) == 0:
+        return API_ERROR
 
     response = '```\n'
     if is_top:
@@ -118,6 +127,9 @@ def top(bot, update):
 def bets_with_no_param():
     """handles /bets command"""
     bets = get_bets()
+    if len(bets) == 0:
+        return API_ERROR
+
     last_match = get_last_match(bets)
 
     return bets_with_param(last_match, bets)
@@ -125,6 +137,9 @@ def bets_with_no_param():
 
 def bets_with_param(match, bets=get_bets()):
     """handles /bets {match} command"""
+    if len(bets) == 0:
+        return API_ERROR
+
     filtered_bets = [ b for b in bets if b['id_user'] in ids and b['id_match'] == match ]
 
     home_team = MATCHES[match]['team_home']
