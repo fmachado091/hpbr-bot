@@ -38,8 +38,8 @@ def get_last_match(bets):
 
 
 def format_top_bottom_row(r):
-    args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'])
-    return '{:3d}. {:16s} - {:3d} pts - {:2d} / {:2d} / {:2d}\n'.format(*args)
+    args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'], r['extra_points'])
+    return '{:3d}. {:16s} - {:3d} pts - {:2d} / {:2d} / {:2d} / {:2d}\n'.format(*args)
 
 
 def format_ranking_row_short(r):
