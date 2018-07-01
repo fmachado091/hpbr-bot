@@ -37,7 +37,7 @@ def get_last_match(bets):
     return reduce((lambda x, y: max(x, y)), matches)
 
 
-def format_top_row(r):
+def format_top_bottom_row(r):
     args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'])
     return '{:3d}. {:16s} - {:3d} pts - {:2d} / {:2d} / {:2d}\n'.format(*args)
 
@@ -84,12 +84,12 @@ def help(bot, update):
     answer(update, 'Help me if you can, I\'m feeling down')
 
 
-def ranking_response(update, is_top):
+def ranking_response(update, mode):
     text = update.message.text
     split_text = text.split()
 
-    if is_top:
-        formatter = format_top_row
+    if mode == 'top' or mode == 'bottom':
+        formatter = format_top_bottom_row
     else:
         formatter = format_ranking_row
         if len(split_text) == 2 and split_text[1] == 'short':
@@ -101,9 +101,11 @@ def ranking_response(update, is_top):
         return API_ERROR
 
     response = '```\n'
-    if is_top:
+    if mode == 'top':
         response += ''.join([ formatter(r) for r in ranking if r['position'] <= 10 ])
-    else:
+    elif mode == 'bottom':
+        response += ''.join([ formatter(r) for r in ranking if r['position'] > 123 ])
+    elif mode == 'ranking':
         response += ''.join([ formatter(r) for r in ranking if r['id'] in ids ])
     response += '```'
 
@@ -113,14 +115,21 @@ def ranking_response(update, is_top):
 def ranking(bot, update):
     """handles /ranking command"""
     chat_id = update.message.chat.id
-    response = ranking_response(update, False)
+    response = ranking_response(update, 'ranking')
     answer_markdown(bot, chat_id, response)
 
 
 def top(bot, update):
     """handles /top command"""
     chat_id = update.message.chat.id
-    response = ranking_response(update, True)
+    response = ranking_response(update, 'top')
+    answer_markdown(bot, chat_id, response)
+
+
+def bottom(bot, update):
+    """handles /bottom command"""
+    chat_id = update.message.chat.id
+    response = ranking_response(update, 'bottom')
     answer_markdown(bot, chat_id, response)
 
 
@@ -195,6 +204,7 @@ def main():
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("ranking", ranking))
     dispatcher.add_handler(CommandHandler("top", top))
+    dispatcher.add_handler(CommandHandler("bottom", bottom))
     dispatcher.add_handler(CommandHandler("bets", bets))
     dispatcher.add_handler(CommandHandler("help", help))
 
