@@ -48,8 +48,8 @@ def format_ranking_row_short(r):
 
 
 def format_ranking_row(r):
-    args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'])
-    return '{:3d}. {:14s} - {:3d} pts - {:2d} / {:2d} / {:2d}\n'.format(*args)
+    args = (r['position'], r['name'], r['points'], r['fives'], r['threes'], r['twos'], r['extra_points'])
+    return '{:3d}. {:14s} - {:3d} pts - {:2d} / {:2d} / {:2d} / {:2d}\n'.format(*args)
 
 
 def format_bets_row(name, goals_home, goals_visitor):
