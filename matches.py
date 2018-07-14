@@ -1,4 +1,3 @@
-# Request URL: https://www.motta.ml/bolao2018/sql/getInfo.php?table=matches
 MATCHES = {
     1: {
         "timestamp": 1528988400,
@@ -1239,5 +1238,45 @@ MATCHES = {
         "stadium_long":37.55,
         "prefix_fifa_home":"CRO",
         "prefix_fifa_visitor":"ENG"
+    },
+    63: {
+        "timestamp":1531576800,
+        "round":7,
+        "goals_home":1,
+        "goals_visitor":0,
+        "penalties_home":0,
+        "penalties_visitor":0,
+        "status":"HT",
+        "team_home":"B\u00e9lgica",
+        "team_home_en":"Belgium",
+        "team_home_id":5,
+        "team_visitor":"Inglaterra",
+        "team_visitor_en":"England",
+        "team_visitor_id":15,
+        "stadium":"Saint Petersburg Stadium",
+        "stadium_lat":59.97,
+        "stadium_long":30.22,
+        "prefix_fifa_home":"BEL",
+        "prefix_fifa_visitor":"ENG"
+    },
+    64: {
+        "timestamp":1531666800,
+        "round":8,
+        "goals_home":0,
+        "goals_visitor":0,
+        "penalties_home":0,
+        "penalties_visitor":0,
+        "status":"future",
+        "team_home":"Fran\u00e7a",
+        "team_home_en":"France",
+        "team_home_id":14,
+        "team_visitor":"Cro\u00e1cia",
+        "team_visitor_en":"Croatia",
+        "team_visitor_id":10,
+        "stadium":"Luzhniki Stadium",
+        "stadium_lat":55.72,
+        "stadium_long":37.55,
+        "prefix_fifa_home":"FRA",
+        "prefix_fifa_visitor":"CRO"
     }
 }
